@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const users = require("../data/users");
+const posts = require("../data/posts");
+
 const error = require("../utilities/error");
 
 router
@@ -80,5 +82,22 @@ router
     if (user) res.json(user);
     else next();
   });
+
+
+  router
+    .route("/:id/posts")
+    .get((req, res, next) => {
+      const user = users.find((u) => u.id == req.params.id);
+      if(user) {
+        // console.log("found user")
+        const postsByUser = posts.filter((p) => p.userId == req.params.id);
+        res.json({user, postsByUser});
+      }
+      else {
+        next();
+      }
+    })
+
+
 
 module.exports = router;
