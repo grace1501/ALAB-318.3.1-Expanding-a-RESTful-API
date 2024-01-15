@@ -88,8 +88,8 @@ router
     .route("/:id/posts")
     .get((req, res, next) => {
       const user = users.find((u) => u.id == req.params.id);
+      
       if(user) {
-        // console.log("found user")
         const postsByUser = posts.filter((p) => p.userId == req.params.id);
         res.json({user, postsByUser});
       }

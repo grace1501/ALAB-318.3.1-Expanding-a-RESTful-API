@@ -7,7 +7,15 @@ const error = require("../utilities/error");
 router
   .route("/")
   .get((req, res) => {
-    const links = [
+    const userId = req.query.userId;
+    
+    if(userId) {
+      const postsByUser = posts.filter((p) => p.userId == userId);
+      res.json({userId, postsByUser});
+    }
+    else {
+
+      const links = [
       {
         href: "posts/:id",
         rel: ":id",
@@ -15,7 +23,8 @@ router
       },
     ];
 
-    res.json({ posts, links });
+      res.json({ posts, links });
+    }
   })
   .post((req, res, next) => {
     if (req.body.userId && req.body.title && req.body.content) {
@@ -76,5 +85,12 @@ router
     if (post) res.json(post);
     else next();
   });
+
+
+router.get("/", (req, res) => {
+  
+})
+
+
 
 module.exports = router;
