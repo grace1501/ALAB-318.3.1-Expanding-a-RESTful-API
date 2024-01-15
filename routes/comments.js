@@ -59,6 +59,22 @@ router
         } else { next() };
 
     })
+    .patch((req, res, next) => {
+        const comment = comments.find((c) => {
+            console.log("check comment obj")
+            console.log(c)
+            if (c.id == req.params.id) {
+                c.body = req.body.body;
+                console.log(c.body)
+            }
+            
+            return true;
+        })
+
+        if (comment) {
+            res.json(comment);
+        } else { next(); }
+    })
 
 
 module.exports = router;
