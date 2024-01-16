@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const posts = require("../data/posts");
+const comments = require("../data/comments")
+
 const error = require("../utilities/error");
 
 router
@@ -86,6 +88,18 @@ router
     else next();
   });
 
+router  
+  .route("/:id/comments")
+  .get((req, res, next) => {
+    const postId = req.params.id;
 
+    if (postId) {
+      const commentsByPost = comments.filter((c) => c.postId == postId);
+      res.json({postId, commentsByPost});
+    } 
+    else {
+      next();
+    }
+  })
 
 module.exports = router;
