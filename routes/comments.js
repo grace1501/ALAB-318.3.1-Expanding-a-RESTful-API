@@ -61,19 +61,26 @@ router
     })
     .patch((req, res, next) => {
         const comment = comments.find((c) => {
-            console.log("check comment obj")
-            console.log(c)
             if (c.id == req.params.id) {
                 c.body = req.body.body;
-                console.log(c.body)
+                console.log(c.body);
+                return true;
             }
-            
-            return true;
         })
 
-        if (comment) {
-            res.json(comment);
-        } else { next(); }
+        if (comment) { res.json(comment); } 
+        else { next(); }
+    })
+    .delete((req, res, next) => {
+        const comment = comments.find((c, i) => {
+            if (c.id == req.params.id) {
+                comments.splice(i, 1);
+                return true;
+            }
+        })
+
+        if(comment) res.json(comment);
+        else next();
     })
 
 
