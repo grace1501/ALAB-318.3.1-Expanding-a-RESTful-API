@@ -11,11 +11,15 @@ router
     .route("/")
     .get((req, res) => {
         const userId = req.query.userId;
-
-        if(userId) {
+        const postId = req.query.postId;
+        if (userId) {
             const commentsByUser = comments.filter((c) =>
                 c.userId == userId);
                 res.json({userId, commentsByUser});
+        }
+        else if (postId) {
+            const commentsByPost = comments.filter((c) => c.postId == postId);
+            res.json({postId, commentsByPost});
         }
         else {
             const links = [
