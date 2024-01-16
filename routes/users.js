@@ -5,6 +5,7 @@ const users = require("../data/users");
 const posts = require("../data/posts");
 
 const error = require("../utilities/error");
+const comments = require("../data/comments");
 
 router
   .route("/")
@@ -84,7 +85,7 @@ router
   });
 
 
-  router
+router
     .route("/:id/posts")
     .get((req, res, next) => {
       const user = users.find((u) => u.id == req.params.id);
@@ -98,6 +99,18 @@ router
       }
     })
 
+router  
+  .route("/:id/comments")
+  .get((req, res, next) => {
+    const userId = req.params.id;
 
+    if (userId) {
+      const commentsByUser = comments.filter((c) => c.userId == userId);
+      res.json({userId, commentsByUser});
+    } 
+    else {
+      next();
+    }
+  })
 
 module.exports = router;
