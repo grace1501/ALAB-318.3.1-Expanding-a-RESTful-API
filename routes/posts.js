@@ -91,9 +91,15 @@ router
 router  
   .route("/:id/comments")
   .get((req, res, next) => {
+    const userId = req.query.userId;
+
     const postId = req.params.id;
 
-    if (postId) {
+    if (userId && postId) {
+      const commentsOnPostByUser = comments.filter((c) => c.postId == postId && c.userId == userId);
+      res.json({postId, userId, commentsOnPostByUser});
+    }
+    else if (postId) {
       const commentsByPost = comments.filter((c) => c.postId == postId);
       res.json({postId, commentsByPost});
     } 
