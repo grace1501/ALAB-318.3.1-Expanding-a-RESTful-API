@@ -10,15 +10,25 @@ const comments = require("../data/comments");
 router
     .route("/")
     .get((req, res) => {
-        const links = [
-            {
-                href: "comments/:id",
-                rel: ":id",
-                type: "GET"
-            }
-        ];
+        const userId = req.query.userId;
 
-        res.json({comments, links});
+        if(userId) {
+            const commentsByUser = comments.filter((c) =>
+                c.userId == userId);
+                res.json({userId, commentsByUser});
+        }
+        else {
+            const links = [
+                {
+                    href: "comments/:id",
+                    rel: ":id",
+                    type: "GET"
+                }
+            ];
+    
+            res.json({comments, links});
+        }
+        
     })
     .post((req, res, next) => {
         if (req.body.userId && req.body.postId && req.body.body) {
@@ -83,5 +93,7 @@ router
         else next();
     })
 
+router
+    .route('/')
 
 module.exports = router;

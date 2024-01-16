@@ -93,7 +93,16 @@ app.get("/api", (req, res) => {
         rel: "posts",
         type: "POST",
       },
-      
+      {
+        href: "api/comments",
+        rel: "comments",
+        type: "GET",
+      },
+      {
+        href: "api/comments",
+        rel: "comments",
+        type: "POST",
+      },
     ],
   });
 });
